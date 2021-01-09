@@ -334,7 +334,8 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                                                            zonCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, k=0.001),
+    heaCon(Ti=60, k=0.001,
+      yMin=0.01),
     cooCon(k=0.01, Ti=600))
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
@@ -370,6 +371,8 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     p(displayUnit="Pa") = 100000,
     redeclare package Medium = MediumHeaWat)
     annotation (Placement(transformation(extent={{54,70},{34,90}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTDisAir[n]
+    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
 equation
 
    connect(sou[1].T_in, TDryBul);
@@ -381,7 +384,7 @@ equation
    connect(floor1.port_b_HeaWat, sinHeaWat[1].ports[1]);
 
    connect(const2[1].y, floor1.PreSetPoi);
-    connect(const1[1].y, floor1.DisTemPSetPoi);
+    connect(oveTDisAir[1].y, floor1.DisTemPSetPoi);
    connect(realToBoolean.y, floor1.OnFan);
     connect(floor1.OnZon, booleanExpression[1].y);
    for j in 1:5 loop
@@ -406,7 +409,7 @@ equation
    connect(floor2.port_b_HeaWat, sinHeaWat[2].ports[1]);
 
    connect(const2[2].y, floor2.PreSetPoi);
-    connect(const1[2].y, floor2.DisTemPSetPoi);
+    connect(oveTDisAir[2].y, floor2.DisTemPSetPoi);
    connect(realToBoolean.y, floor2.OnFan);
     connect(floor2.OnZon, booleanExpression[2].y);
    for j in 1:5 loop
@@ -430,7 +433,7 @@ equation
    connect(floor3.port_b_HeaWat, sinHeaWat[3].ports[1]);
 
    connect(const2[3].y, floor3.PreSetPoi);
-    connect(const1[3].y, floor3.DisTemPSetPoi);
+    connect(oveTDisAir[3].y, floor3.DisTemPSetPoi);
    connect(realToBoolean.y, floor3.OnFan);
     connect(floor3.OnZon, booleanExpression[3].y);
    for j in 1:5 loop
@@ -457,6 +460,10 @@ equation
   connect(floor1.TOut, TDryBul);
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
+  connect(const1.y, oveTDisAir.u) annotation (Line(
+      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
