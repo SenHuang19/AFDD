@@ -177,7 +177,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       MixingBox_Ti=600,
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=100000)))
+    fivZonVAV(vol(V=200000)))
     annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
 
   BuildingControlEmulator.Systems.Floor floor2(
@@ -244,7 +244,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       MixingBox_Ti=600,
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=100000)))
+    fivZonVAV(vol(V=200000)))
     annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
 
   BuildingControlEmulator.Systems.Floor floor3(
@@ -311,7 +311,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       MixingBox_Ti=600,
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=100000)))
+    fivZonVAV(vol(V=200000)))
     annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
 
 
@@ -334,16 +334,16 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                                                            zonCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, k=0.001,
+    heaCon(Ti=60, k=1,
       yMin=0.01),
-    cooCon(k=0.01, Ti=600))
+    cooCon(k=11, Ti=60))
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul "Entering air wet bulb temperature" annotation (Placement(transformation(extent={{-126,-12},{-100,14}})));
   BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi setPoi[15](
     n=2,
-    setpoint_on={{273.15 + 24,273.15 + 21} for i in linspace(1, 15, 15)},
+    setpoint_on={{273.15 + 22,273.15 + 20} for i in linspace(1, 15, 15)},
     setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(1, 15, 15)}) annotation (Placement(transformation(extent={{80,20},{60,40}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=15) annotation (Placement(transformation(extent={{70,60},{90,80}})));
   Modelica.Blocks.Interfaces.RealInput Occ "Entering air wet bulb temperature"
@@ -440,7 +440,7 @@ equation
       connect(floor3.TZon[j], zonCon[(3 - 1)*5 + j].T);
     connect(zonCon[(3-1)*5+j].yAirFlowSetPoi, floor3.AirFlowRatSetPoi[j]);
     connect(zonCon[(3-1)*5+j].yValPos, floor3.yVal[j]);
-    connect(Load[(2-1)*5+j], floor3.Q_flow[j]);
+    connect(Load[(3-1)*5+j], floor3.Q_flow[j]);
     connect(floor3.TZon[j], TZon[(3-1)*5+j]);
     connect(setPoi[(3-1)*5+j].SetPoi[1], zonCon[(3-1)*5+j].TCooSetPoi);
     connect(setPoi[(3-1)*5+j].SetPoi[2], zonCon[(3-1)*5+j].THeaSetPoi);

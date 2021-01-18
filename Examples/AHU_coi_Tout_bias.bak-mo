@@ -1,0 +1,7 @@
+within AFDD.Examples;
+model AHU_coi_Tout_bias
+  import BuildingControlEmulator;
+  extends Modelica.Icons.Example;
+  extends AHU(aHU(floor2(duaFanAirHanUnit(mixingBox(ecoCon(redeclare BuildingControlEmulator.Devices.Fault.TemSensorDev Tout(dt=-4, FauTime=0)))))));
+
+end AHU_coi_Tout_bias;
