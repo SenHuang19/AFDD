@@ -336,11 +336,17 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     HeatingFlowRateSetPoi=0.5,
     heaCon(Ti=60, k=1,
       yMin=0.01),
-    cooCon(k=11, Ti=60))
+    cooCon(k=11, Ti=60),
+    oveTCooSet(uExt(y=TCooSetPoi),activate(y=TCooSetPoi_activate)),
+    oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)))
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul "Entering air wet bulb temperature" annotation (Placement(transformation(extent={{-126,-12},{-100,14}})));
+  Modelica.Blocks.Interfaces.RealInput TCooSetPoi[15];
+  Modelica.Blocks.Interfaces.BooleanInput TCooSetPoi_activate[15];
+  Modelica.Blocks.Interfaces.RealInput THeaSetPoi[15];
+  Modelica.Blocks.Interfaces.BooleanInput THeaSetPoi_activate[15];
   BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi setPoi[15](
     n=2,
     setpoint_on={{273.15 + 22,273.15 + 20} for i in linspace(1, 15, 15)},
