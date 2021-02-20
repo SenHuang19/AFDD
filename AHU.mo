@@ -113,6 +113,8 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
   parameter Modelica.SIunits.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
 
+  Modelica.Blocks.Continuous.FirstOrder firstOrder(T=10);
+
   BuildingControlEmulator.Systems.Floor floor1(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
@@ -377,7 +379,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     p(displayUnit="Pa") = 100000,
     redeclare package Medium = MediumHeaWat)
     annotation (Placement(transformation(extent={{54,70},{34,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTDisAir[n]
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor1TDisAir
+    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor2TDisAir
+    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
 equation
 
@@ -390,7 +396,7 @@ equation
    connect(floor1.port_b_HeaWat, sinHeaWat[1].ports[1]);
 
    connect(const2[1].y, floor1.PreSetPoi);
-    connect(oveTDisAir[1].y, floor1.DisTemPSetPoi);
+    connect(oveFloor1TDisAir.y, floor1.DisTemPSetPoi);
    connect(realToBoolean.y, floor1.OnFan);
     connect(floor1.OnZon, booleanExpression[1].y);
    for j in 1:5 loop
@@ -415,7 +421,7 @@ equation
    connect(floor2.port_b_HeaWat, sinHeaWat[2].ports[1]);
 
    connect(const2[2].y, floor2.PreSetPoi);
-    connect(oveTDisAir[2].y, floor2.DisTemPSetPoi);
+    connect(oveFloor2TDisAir.y, floor2.DisTemPSetPoi);
    connect(realToBoolean.y, floor2.OnFan);
     connect(floor2.OnZon, booleanExpression[2].y);
    for j in 1:5 loop
@@ -439,7 +445,7 @@ equation
    connect(floor3.port_b_HeaWat, sinHeaWat[3].ports[1]);
 
    connect(const2[3].y, floor3.PreSetPoi);
-    connect(oveTDisAir[3].y, floor3.DisTemPSetPoi);
+    connect(oveFloor3TDisAir.y, floor3.DisTemPSetPoi);
    connect(realToBoolean.y, floor3.OnFan);
     connect(floor3.OnZon, booleanExpression[3].y);
    for j in 1:5 loop
@@ -460,13 +466,20 @@ equation
   connect(realToBoolean.y, booleanReplicator.u)
     annotation (Line(points={{55,40},{62,40},{62,70},{68,70}},
                                                color={255,0,255}));
-  connect(realToBoolean.u, Occ) annotation (Line(points={{32,40},{28,40},{28,39},
-          {-113,39}}, color={0,0,127},
-      pattern=LinePattern.Dash));
+  connect(firstOrder.u, Occ);
+  connect(firstOrder.y, realToBoolean.u);
   connect(floor1.TOut, TDryBul);
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
-  connect(const1.y, oveTDisAir.u) annotation (Line(
+  connect(const1[1].y, oveFloor1TDisAir.u) annotation (Line(
+      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(const1[2].y, oveFloor2TDisAir.u) annotation (Line(
+      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(const1[3].y, oveFloor3TDisAir.u) annotation (Line(
       points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
       color={0,0,127},
       pattern=LinePattern.Dash));
