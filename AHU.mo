@@ -113,8 +113,6 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
   parameter Modelica.SIunits.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
 
-  Modelica.Blocks.Continuous.FirstOrder firstOrder(T=10);
-
   BuildingControlEmulator.Systems.Floor floor1(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
@@ -340,7 +338,9 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       yMin=0.01),
     cooCon(k=11, Ti=60),
     oveTCooSet(uExt(y=TCooSetPoi),activate(y=TCooSetPoi_activate)),
-    oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)))
+    oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)),
+    oveAirFlowSetPoi(uExt(y=mAirFlow),activate(y=mAirFlow_activate)),
+    oveyValPos(uExt(y=yPos),activate(y=yPos_activate)))
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
@@ -349,6 +349,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
   Modelica.Blocks.Interfaces.BooleanInput TCooSetPoi_activate[15];
   Modelica.Blocks.Interfaces.RealInput THeaSetPoi[15];
   Modelica.Blocks.Interfaces.BooleanInput THeaSetPoi_activate[15];
+  Modelica.Blocks.Interfaces.RealInput mAirFlow[15];
+  Modelica.Blocks.Interfaces.BooleanInput mAirFlow_activate[15];
+  Modelica.Blocks.Interfaces.RealInput yPos[15];
+  Modelica.Blocks.Interfaces.BooleanInput yPos_activate[15];
+
   BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi setPoi[15](
     n=2,
     setpoint_on={{273.15 + 22,273.15 + 20} for i in linspace(1, 15, 15)},
@@ -466,8 +471,9 @@ equation
   connect(realToBoolean.y, booleanReplicator.u)
     annotation (Line(points={{55,40},{62,40},{62,70},{68,70}},
                                                color={255,0,255}));
-  connect(firstOrder.u, Occ);
-  connect(firstOrder.y, realToBoolean.u);
+  connect(realToBoolean.u, Occ) annotation (Line(points={{32,40},{28,40},{28,39},
+          {-113,39}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(floor1.TOut, TDryBul);
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
