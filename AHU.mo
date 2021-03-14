@@ -390,6 +390,8 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder(T=1)
+    annotation (Placement(transformation(extent={{-58,44},{-44,58}})));
 equation
 
    connect(sou[1].T_in, TDryBul);
@@ -471,9 +473,6 @@ equation
   connect(realToBoolean.y, booleanReplicator.u)
     annotation (Line(points={{55,40},{62,40},{62,70},{68,70}},
                                                color={255,0,255}));
-  connect(realToBoolean.u, Occ) annotation (Line(points={{32,40},{28,40},{28,39},
-          {-113,39}}, color={0,0,127},
-      pattern=LinePattern.Dash));
   connect(floor1.TOut, TDryBul);
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
@@ -489,6 +488,10 @@ equation
       points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
       color={0,0,127},
       pattern=LinePattern.Dash));
+  connect(firstOrder.y, realToBoolean.u) annotation (Line(points={{-43.3,51},{
+          18,51},{18,40},{32,40}}, color={0,0,127}));
+  connect(firstOrder.u, Occ) annotation (Line(points={{-59.4,51},{-80,51},{-80,
+          39},{-113,39}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
