@@ -178,7 +178,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
     fivZonVAV(vol(V=200000)))
-    annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
+    annotation (Placement(transformation(extent={{-28,6},{16,40}})));
 
   BuildingControlEmulator.Systems.Floor floor2(
     redeclare package MediumAir = MediumAir,
@@ -245,7 +245,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
     fivZonVAV(vol(V=200000)))
-    annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
+    annotation (Placement(transformation(extent={{-26,-38},{18,-4}})));
 
   BuildingControlEmulator.Systems.Floor floor3(
     redeclare package MediumAir = MediumAir,
@@ -312,7 +312,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                      Fan_k=0.001, Fan_Ti=600),
     redeclare package MediumCooWat = MediumCHW,
     fivZonVAV(vol(V=200000)))
-    annotation (Placement(transformation(extent={{-18,-16},{32,26}})));
+    annotation (Placement(transformation(extent={{-26,-84},{20,-48}})));
 
 
 
@@ -341,7 +341,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)),
     oveAirFlowSetPoi(uExt(y=mAirFlow),activate(y=mAirFlow_activate)),
     oveyValPos(uExt(y=yPos),activate(y=yPos_activate)))
-    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+    annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul "Entering air wet bulb temperature" annotation (Placement(transformation(extent={{-126,-12},{-100,14}})));
@@ -357,7 +357,8 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
   BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi setPoi[15](
     n=2,
     setpoint_on={{273.15 + 22,273.15 + 20} for i in linspace(1, 15, 15)},
-    setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(1, 15, 15)}) annotation (Placement(transformation(extent={{80,20},{60,40}})));
+    setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(1, 15, 15)}) annotation (Placement(transformation(extent={{80,0},{
+            60,20}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=15) annotation (Placement(transformation(extent={{70,60},{90,80}})));
   Modelica.Blocks.Interfaces.RealInput Occ "Entering air wet bulb temperature"
     annotation (Placement(transformation(extent={{-126,26},{-100,52}})));
@@ -385,11 +386,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     redeclare package Medium = MediumHeaWat)
     annotation (Placement(transformation(extent={{54,70},{34,90}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor1TDisAir
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor2TDisAir
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+    annotation (Placement(transformation(extent={{-60,-68},{-40,-48}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+    annotation (Placement(transformation(extent={{-60,-94},{-40,-74}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder(T=1)
     annotation (Placement(transformation(extent={{-58,44},{-44,58}})));
 equation
@@ -468,7 +469,8 @@ equation
    end for;
 
 
-  connect(booleanReplicator.y, setPoi.Occ) annotation (Line(points={{91,70},{96,70},{96,30},{82,30}}, color={255,0,255}));
+  connect(booleanReplicator.y, setPoi.Occ) annotation (Line(points={{91,70},{96,
+          70},{96,10},{82,10}},                                                                       color={255,0,255}));
 
   connect(realToBoolean.y, booleanReplicator.u)
     annotation (Line(points={{55,40},{62,40},{62,70},{68,70}},
@@ -477,21 +479,23 @@ equation
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
   connect(const1[1].y, oveFloor1TDisAir.u) annotation (Line(
-      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      points={{-79,-30},{-62,-30}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(const1[2].y, oveFloor2TDisAir.u) annotation (Line(
-      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      points={{-79,-30},{-70,-30},{-70,-58},{-62,-58}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(const1[3].y, oveFloor3TDisAir.u) annotation (Line(
-      points={{-79,-30},{-70,-30},{-70,-50},{-62,-50}},
+      points={{-79,-30},{-70,-30},{-70,-84},{-62,-84}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(firstOrder.y, realToBoolean.u) annotation (Line(points={{-43.3,51},{
-          18,51},{18,40},{32,40}}, color={0,0,127}));
+          18,51},{18,40},{32,40}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(firstOrder.u, Occ) annotation (Line(points={{-59.4,51},{-80,51},{-80,
-          39},{-113,39}}, color={0,0,127}));
+          39},{-113,39}}, color={0,0,127},
+      pattern=LinePattern.Dash));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
