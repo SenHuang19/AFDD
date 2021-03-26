@@ -9,7 +9,7 @@ model AHU "\"air sidesystem\""
   package MediumHeaWat = IBPSA.Media.Water "Medium model for heating water";
 
   parameter Integer n =  3  "Number of floors";
-
+  parameter Real alpha =  0.75  "Sizing factor";
   parameter Modelica.SIunits.Pressure PreDroCoiAir =  50  "Pressure drop in the air side";
   parameter Modelica.SIunits.Pressure PreDroMixingBoxAir =  50 "Pressure drop in the air side";
   parameter Modelica.SIunits.Pressure PreDroCooWat = 79712 "Pressure drop in the water side";
@@ -61,15 +61,15 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
 
   parameter Modelica.SIunits.Pressure PreWatDroBra5 =  0 "Pressure drop 1 across the pipe branch 5";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat1[n] = {10.92*1.2/2,10.92*1.2*10/2,10.92*1.2/2}*3 "mass flow rate for vav 1";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat1[n] = {10.92*1.2*alpha,10.92*1.2*10*alpha,10.92*1.2*alpha}*3 "mass flow rate for vav 1";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat2[n] = {2.25*1.2/2,2.25*1.2*10/2,2.25*1.2/2}*3 "mass flow rate for vav 2";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat2[n] = {2.25*1.2*alpha,2.25*1.2*10*alpha,2.25*1.2*alpha}*3 "mass flow rate for vav 2";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat3[n] = {1.49*1.2/2,1.49*1.2*10/2,1.49*1.2/2}*3 "mass flow rate for vav 3";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat3[n] = {1.49*1.2*alpha,1.49*1.2*10*alpha,1.49*1.2*alpha}*3 "mass flow rate for vav 3";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat4[n] = {1.9*1.2/2,1.9*1.2*10/2,1.9*1.2/2}*3 "mass flow rate for vav 4";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat4[n] = {1.9*1.2*alpha,1.9*1.2*10*alpha,1.9*1.2*alpha}*3 "mass flow rate for vav 4";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat5[n] = {1.73*1.2/2,1.73*1.2*10/2,1.73*1.2/2}*3 "mass flow rate for vav 5";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat5[n] = {1.73*1.2*alpha,1.73*1.2*10*alpha,1.73*1.2*alpha}*3 "mass flow rate for vav 5";
 
   parameter Modelica.SIunits.MassFlowRate mWatFloRat1[n] = {mAirFloRat1[1]*0.3*(35-12.88)/4.2/20,mAirFloRat1[2]*0.3*(35-12.88)/4.2/20,mAirFloRat1[3]*0.3*(35-12.88)/4.2/20} "mass flow rate for vav 1";
 
@@ -340,7 +340,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     heaCon(Ti=60,
       k=0.01,
       yMin=0.01),
-    cooCon(k=0.1,Ti=60),
+    cooCon(k=0.01,Ti=60),
     oveTCooSet(uExt(y=TCooSetPoi),activate(y=TCooSetPoi_activate)),
     oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)),
     oveAirFlowSetPoi(uExt(y=mAirFlow),activate(y=mAirFlow_activate)),
