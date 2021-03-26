@@ -61,15 +61,15 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
 
   parameter Modelica.SIunits.Pressure PreWatDroBra5 =  0 "Pressure drop 1 across the pipe branch 5";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat1[n] = {10.92*1.2,10.92*1.2*10,10.92*1.2}*3 "mass flow rate for vav 1";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat1[n] = {10.92*1.2/2,10.92*1.2*10/2,10.92*1.2/2}*3 "mass flow rate for vav 1";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat2[n] = {2.25*1.2,2.25*1.2*10,2.25*1.2}*3 "mass flow rate for vav 2";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat2[n] = {2.25*1.2/2,2.25*1.2*10/2,2.25*1.2/2}*3 "mass flow rate for vav 2";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat3[n] = {1.49*1.2,1.49*1.2*10,1.49*1.2}*3 "mass flow rate for vav 3";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat3[n] = {1.49*1.2/2,1.49*1.2*10/2,1.49*1.2/2}*3 "mass flow rate for vav 3";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat4[n] = {1.9*1.2,1.9*1.2*10,1.9*1.2}*3 "mass flow rate for vav 4";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat4[n] = {1.9*1.2/2,1.9*1.2*10/2,1.9*1.2/2}*3 "mass flow rate for vav 4";
 
-  parameter Modelica.SIunits.MassFlowRate mAirFloRat5[n] = {1.73*1.2,1.73*1.2*10,1.73*1.2}*3 "mass flow rate for vav 5";
+  parameter Modelica.SIunits.MassFlowRate mAirFloRat5[n] = {1.73*1.2/2,1.73*1.2*10/2,1.73*1.2/2}*3 "mass flow rate for vav 5";
 
   parameter Modelica.SIunits.MassFlowRate mWatFloRat1[n] = {mAirFloRat1[1]*0.3*(35-12.88)/4.2/20,mAirFloRat1[2]*0.3*(35-12.88)/4.2/20,mAirFloRat1[3]*0.3*(35-12.88)/4.2/20} "mass flow rate for vav 1";
 
@@ -114,6 +114,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     "Heat exchanger effectiveness of vav 1";
 
   BuildingControlEmulator.Systems.Floor floor1(
+    fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -123,11 +124,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
     waitTime=900,
-    HydEff=HydEff[1,:],
-    MotEff=MotEff[1,:],
-    VolFloCur=VolFloCur[1,:],
-    SupPreCur=SupPreCur[1,:],
-    RetPreCur=RetPreCur[1,:],
+    HydEff=HydEff[1, :],
+    MotEff=MotEff[1, :],
+    VolFloCur=VolFloCur[1, :],
+    SupPreCur=SupPreCur[1, :],
+    RetPreCur=RetPreCur[1, :],
     PreAirDroMai1=PreAirDroMai1,
     PreAirDroMai2=PreAirDroMai2,
     PreAirDroMai3=PreAirDroMai3,
@@ -175,12 +176,13 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       Coi_k=0.1,
       MixingBox_k=0.1,
       MixingBox_Ti=600,
-                     Fan_k=0.001, Fan_Ti=600),
-    redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=200000)))
-    annotation (Placement(transformation(extent={{-28,6},{16,40}})));
+      Fan_k=0.001,
+      Fan_Ti=600),
+    redeclare package MediumCooWat = MediumCHW)
+    annotation (Placement(transformation(extent={{-26,6},{18,40}})));
 
   BuildingControlEmulator.Systems.Floor floor2(
+    fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -190,11 +192,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
     waitTime=900,
-    HydEff=HydEff[2,:],
-    MotEff=MotEff[2,:],
-    VolFloCur=VolFloCur[2,:],
-    SupPreCur=SupPreCur[2,:],
-    RetPreCur=RetPreCur[2,:],
+    HydEff=HydEff[2, :],
+    MotEff=MotEff[2, :],
+    VolFloCur=VolFloCur[2, :],
+    SupPreCur=SupPreCur[2, :],
+    RetPreCur=RetPreCur[2, :],
     PreAirDroMai1=PreAirDroMai1,
     PreAirDroMai2=PreAirDroMai2,
     PreAirDroMai3=PreAirDroMai3,
@@ -242,12 +244,13 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       Coi_k=0.1,
       MixingBox_k=0.1,
       MixingBox_Ti=600,
-                     Fan_k=0.001, Fan_Ti=600),
-    redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=200000)))
+      Fan_k=0.001,
+      Fan_Ti=600),
+    redeclare package MediumCooWat = MediumCHW)
     annotation (Placement(transformation(extent={{-26,-38},{18,-4}})));
 
   BuildingControlEmulator.Systems.Floor floor3(
+    fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -257,11 +260,11 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
     waitTime=900,
-    HydEff=HydEff[3,:],
-    MotEff=MotEff[3,:],
-    VolFloCur=VolFloCur[3,:],
-    SupPreCur=SupPreCur[3,:],
-    RetPreCur=RetPreCur[3,:],
+    HydEff=HydEff[3, :],
+    MotEff=MotEff[3, :],
+    VolFloCur=VolFloCur[3, :],
+    SupPreCur=SupPreCur[3, :],
+    RetPreCur=RetPreCur[3, :],
     PreAirDroMai1=PreAirDroMai1,
     PreAirDroMai2=PreAirDroMai2,
     PreAirDroMai3=PreAirDroMai3,
@@ -309,9 +312,9 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
       Coi_k=0.1,
       MixingBox_k=0.1,
       MixingBox_Ti=600,
-                     Fan_k=0.001, Fan_Ti=600),
-    redeclare package MediumCooWat = MediumCHW,
-    fivZonVAV(vol(V=200000)))
+      Fan_k=0.001,
+      Fan_Ti=600),
+    redeclare package MediumCooWat = MediumCHW)
     annotation (Placement(transformation(extent={{-26,-84},{20,-48}})));
 
 
@@ -334,9 +337,10 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
                                                            zonCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, k=1,
+    heaCon(Ti=60,
+      k=0.01,
       yMin=0.01),
-    cooCon(k=11, Ti=60),
+    cooCon(k=0.1,Ti=60),
     oveTCooSet(uExt(y=TCooSetPoi),activate(y=TCooSetPoi_activate)),
     oveTHeaSet(uExt(y=THeaSetPoi),activate(y=THeaSetPoi_activate)),
     oveAirFlowSetPoi(uExt(y=mAirFlow),activate(y=mAirFlow_activate)),
@@ -344,6 +348,7 @@ parameter Modelica.SIunits.Pressure PreAirDroMai1 = 140 "Pressure drop 1 across 
     annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
   Modelica.Blocks.Interfaces.RealInput Load[15] annotation (Placement(transformation(extent={{-128,-66},{-100,-38}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealOutput TZonSen[15] "Temperature of the passing fluid" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul "Entering air wet bulb temperature" annotation (Placement(transformation(extent={{-126,-12},{-100,14}})));
   Modelica.Blocks.Interfaces.RealInput TCooSetPoi[15];
   Modelica.Blocks.Interfaces.BooleanInput TCooSetPoi_activate[15];
@@ -408,11 +413,12 @@ equation
    connect(realToBoolean.y, floor1.OnFan);
     connect(floor1.OnZon, booleanExpression[1].y);
    for j in 1:5 loop
-      connect(floor1.TZon[j], zonCon[(1 - 1)*5 + j].T);
+      connect(floor1.TZonSen[j], zonCon[(1 - 1)*5 + j].T);
     connect(zonCon[(1-1)*5+j].yAirFlowSetPoi, floor1.AirFlowRatSetPoi[j]);
     connect(zonCon[(1-1)*5+j].yValPos, floor1.yVal[j]);
     connect(Load[(1-1)*5+j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
+    connect(floor1.TZonSen[j], TZonSen[(1-1)*5+j]);
     connect(setPoi[(1-1)*5+j].SetPoi[1], zonCon[(1-1)*5+j].TCooSetPoi);
     connect(setPoi[(1-1)*5+j].SetPoi[2], zonCon[(1-1)*5+j].THeaSetPoi);
     connect(setPoi[(1-1)*5+j].SetPoi[1], floor1.ZonCooTempSetPoi[j]);
@@ -433,11 +439,12 @@ equation
    connect(realToBoolean.y, floor2.OnFan);
     connect(floor2.OnZon, booleanExpression[2].y);
    for j in 1:5 loop
-      connect(floor2.TZon[j], zonCon[(2 - 1)*5 + j].T);
+      connect(floor2.TZonSen[j], zonCon[(2 - 1)*5 + j].T);
     connect(zonCon[(2-1)*5+j].yAirFlowSetPoi, floor2.AirFlowRatSetPoi[j]);
     connect(zonCon[(2-1)*5+j].yValPos, floor2.yVal[j]);
     connect(Load[(2-1)*5+j], floor2.Q_flow[j]);
     connect(floor2.TZon[j], TZon[(2-1)*5+j]);
+    connect(floor2.TZonSen[j], TZonSen[(2-1)*5+j]);	
     connect(setPoi[(2-1)*5+j].SetPoi[1], zonCon[(2-1)*5+j].TCooSetPoi);
     connect(setPoi[(2-1)*5+j].SetPoi[2], zonCon[(2-1)*5+j].THeaSetPoi);
     connect(setPoi[(2-1)*5+j].SetPoi[1], floor2.ZonCooTempSetPoi[j]);
@@ -457,11 +464,12 @@ equation
    connect(realToBoolean.y, floor3.OnFan);
     connect(floor3.OnZon, booleanExpression[3].y);
    for j in 1:5 loop
-      connect(floor3.TZon[j], zonCon[(3 - 1)*5 + j].T);
+      connect(floor3.TZonSen[j], zonCon[(3 - 1)*5 + j].T);
     connect(zonCon[(3-1)*5+j].yAirFlowSetPoi, floor3.AirFlowRatSetPoi[j]);
     connect(zonCon[(3-1)*5+j].yValPos, floor3.yVal[j]);
     connect(Load[(3-1)*5+j], floor3.Q_flow[j]);
     connect(floor3.TZon[j], TZon[(3-1)*5+j]);
+    connect(floor3.TZonSen[j], TZonSen[(3-1)*5+j]);
     connect(setPoi[(3-1)*5+j].SetPoi[1], zonCon[(3-1)*5+j].TCooSetPoi);
     connect(setPoi[(3-1)*5+j].SetPoi[2], zonCon[(3-1)*5+j].THeaSetPoi);
     connect(setPoi[(3-1)*5+j].SetPoi[1], floor3.ZonCooTempSetPoi[j]);
